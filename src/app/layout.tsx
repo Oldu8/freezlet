@@ -27,7 +27,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <header className="w-full bg-blue-500 p-4">
+          <h1 className="text-4xl text-center text-white font-bold">
+            Word Sets to learn
+          </h1>
+        </header>
+        <main className="p-6 max-w-3xl mx-auto">{children}</main>
       </body>
     </html>
   );
