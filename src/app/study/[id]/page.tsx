@@ -47,18 +47,22 @@ export default function StudyPage() {
     <main className="p-6 max-w-3xl mx-auto">
       {wordSet ? (
         <>
-          <h1 className="text-2xl font-bold mb-4">{wordSet.name}</h1>
-
+          <h3 className="text-2xl font-bold mb-4">
+            Your learning set: {wordSet.name}
+          </h3>
+          <p className="mb-4">
+            Try to remember these words and then check your knowledge.
+          </p>
           {/* Flashcard */}
           <div className="border p-6 text-center text-xl mb-4">
             {shuffledWords.length > 0 ? (
               <>
                 <p className="font-bold">{shuffledWords[currentIndex].term}</p>
-                {showAnswer && (
-                  <p className="text-gray-500 mt-2">
-                    {shuffledWords[currentIndex].definition}
-                  </p>
-                )}
+                <p className="text-gray-500 mt-2 min-h-[28px]">
+                  {showAnswer && (
+                    <span>{shuffledWords[currentIndex].definition}</span>
+                  )}
+                </p>
               </>
             ) : (
               <p>No words in this set.</p>
@@ -66,17 +70,23 @@ export default function StudyPage() {
           </div>
 
           {/* Controls */}
-          <div className="flex justify-center gap-4">
-            <button onClick={prevCard} className="bg-gray-500 text-white p-2">
+          <div className="flex justify-between gap-4">
+            <button
+              onClick={prevCard}
+              className="bg-teal-500 text-white p-2 rounded"
+            >
               Previous
             </button>
             <button
               onClick={() => setShowAnswer(!showAnswer)}
-              className="bg-blue-500 text-white p-2"
+              className="bg-blue-500 text-white p-2 rounded"
             >
               {showAnswer ? "Hide Answer" : "Show Answer"}
             </button>
-            <button onClick={nextCard} className="bg-gray-500 text-white p-2">
+            <button
+              onClick={nextCard}
+              className="bg-teal-500 text-white p-2 rounded"
+            >
               Next
             </button>
           </div>
