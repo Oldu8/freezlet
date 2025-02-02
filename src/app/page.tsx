@@ -11,8 +11,8 @@ export default function HomePage() {
   const [wordSets, setWordSets] = useState<WordSet[]>([]);
   const [showInput, setShowInput] = useState(false);
   const [newSetName, setNewSetName] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
-  // Load sets from localStorage on mount
   useEffect(() => {
     const storedSets = localStorage.getItem("wordSets");
     if (storedSets) {
@@ -20,7 +20,6 @@ export default function HomePage() {
     }
   }, []);
 
-  // Create a new set
   const createSet = () => {
     const newSet: WordSet = {
       id: uuidv4(),
@@ -33,15 +32,37 @@ export default function HomePage() {
     router.push(`/set/${newSet.id}`);
   };
 
-  // Delete a set
   const deleteSet = (id: string) => {
     const updatedSets = wordSets.filter((set) => set.id !== id);
     setWordSets(updatedSets);
     localStorage.setItem("wordSets", JSON.stringify(updatedSets));
+    setConfirmDelete(null);
   };
 
   return (
     <section>
+      {confirmDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <p className="mb-4">Are you sure you want to delete this set?</p>
+            <div className="flex gap-8 items-center justify-center">
+              <button
+                onClick={() => deleteSet(confirmDelete)}
+                className="bg-red-500 text-white px-4 py-3 rounded"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="bg-gray-500 text-white px-4 py-3 rounded"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {!showInput ? (
         <button
           onClick={() => setShowInput(true)}
@@ -110,7 +131,7 @@ export default function HomePage() {
                       Study
                     </Link>
                     <button
-                      onClick={() => deleteSet(set.id)}
+                      onClick={() => setConfirmDelete(set.id)}
                       className="bg-red-500 text-white px-3 py-1 rounded"
                     >
                       Delete
