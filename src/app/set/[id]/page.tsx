@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { WordSet, Word } from "@/types/types";
+import EditWordList from "@/components/EditWordList/EditWordList";
 
 export default function EditSetPage() {
   const { id } = useParams();
@@ -137,22 +138,28 @@ export default function EditSetPage() {
               </div>
             )}
             <div className="my-4 ">
-              <p className="font-bold my-2 text-center">
+              <div className="border-t border-b border-gray-400"></div>
+              <p className="font-bold my-6 text-center">
                 You have already added:
               </p>
-              <ul>
-                {wordSet.words.map((word, index) => (
-                  <li key={index} className="border p-2 mb-2">
-                    <span className="font-bold">{word.term}</span>:{" "}
-                    {word.definition}
-                  </li>
-                ))}
-              </ul>
+              <EditWordList
+                wordSet={wordSet}
+                setWordSet={setWordSet}
+                saveChanges={saveChanges}
+              />
             </div>
           </>
         ) : (
           <p>Loading...</p>
         )}
+      </div>
+      <div className="mt-8">
+        <Link
+          href={"/set/" + id + "/study"}
+          className="font-bold bg-green-600 text-white p-3 rounded"
+        >
+          Study this set
+        </Link>
       </div>
     </section>
   );

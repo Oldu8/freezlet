@@ -20,12 +20,6 @@ export default function HomePage() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(newSetName);
-    console.log(newSetName.trim().length);
-    console.log(newSetName.trim().length < 2);
-  }, [newSetName]);
-
   // Create a new set
   const createSet = () => {
     const newSet: WordSet = {
