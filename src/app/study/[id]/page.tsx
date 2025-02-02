@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { WordSet, Word } from "@/types/types";
+import Link from "next/link";
 
 export default function StudyPage() {
   const { id } = useParams();
@@ -44,9 +45,15 @@ export default function StudyPage() {
   };
 
   return (
-    <main className="p-6 max-w-3xl mx-auto">
+    <section className="flex flex-col items-start">
+      <Link
+        href="/"
+        className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+      >
+        Back on main page
+      </Link>
       {wordSet ? (
-        <>
+        <div className="w-full">
           <h3 className="text-2xl font-bold mb-4">
             Your learning set: {wordSet.name}
           </h3>
@@ -90,10 +97,10 @@ export default function StudyPage() {
               Next
             </button>
           </div>
-        </>
+        </div>
       ) : (
         <p>Loading...</p>
       )}
-    </main>
+    </section>
   );
 }
