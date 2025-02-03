@@ -35,6 +35,46 @@ export default function StudyPage() {
           <h3 className="text-2xl font-bold mb-4">
             Your learning set: {wordSet.name}
           </h3>
+          <div>
+            <p>
+              You can start learning words from your sets. To start learning
+              select type of study you want:
+            </p>
+            <ul className="my-4 flex flex-col gap-8 w-full">
+              <li className="flex flex-row gap-2 border p-2 items-center">
+                <div className="flex flex-col gap-1">
+                  <p className="font-bold text-lg">Quiz</p>
+                  <p>
+                    Here you will have to find correct definition from 4
+                    options.
+                  </p>
+                  <p>Best for memorizing meanings</p>
+                </div>
+                <Link
+                  className="ml-auto font-bold p-2 bg-blue-500 text-white rounded "
+                  href={`/study/quiz/${wordSet.id}`}
+                >
+                  Start Quiz
+                </Link>
+              </li>
+              <li className="flex flex-row gap-2 border p-2 items-center">
+                <div className="flex flex-col gap-1">
+                  <p className="font-bold text-lg">Cards</p>
+                  <p>
+                    This will show you cards with terms and hidden/visible
+                    definitions.
+                  </p>
+                  <p>Best for familiarizing with words </p>
+                </div>
+                <Link
+                  className="ml-auto font-bold p-2 bg-purple-500 text-white rounded "
+                  href={`/study/card/${wordSet.id}`}
+                >
+                  Start Cards
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>

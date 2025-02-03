@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { WordSet } from "@/types/types";
+"use client";
 
-export default function TestPage({ params }: { params: { id: string } }) {
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { WordSet } from "@/types/types";
+import Link from "next/link";
+
+export default function StudyQuizPage() {
   const router = useRouter();
   const [wordSet, setWordSet] = useState<WordSet | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,11 +14,13 @@ export default function TestPage({ params }: { params: { id: string } }) {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
+  const { id } = useParams();
+
   useEffect(() => {
     const storedSets = localStorage.getItem("wordSets");
     if (storedSets) {
       const sets: WordSet[] = JSON.parse(storedSets);
-      const foundSet = sets.find((set) => set.id === params.id);
+      const foundSet = sets.find((set) => set.id === id);
       if (foundSet) {
         setWordSet(foundSet);
         generateOptions(foundSet.words, 0);
@@ -23,7 +28,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
         router.push("/");
       }
     }
-  }, [params.id, router]);
+  }, [id]);
 
   const generateOptions = (words: WordSet["words"], index: number) => {
     const correctDefinition = words[index].definition;
@@ -56,19 +61,32 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
   if (!wordSet) return <p>Loading...</p>;
 
+  console.log(isFinished);
+
   return (
-    <div className="max-w-xl mx-auto p-4">
-      {!isFinished ? (
-        <div>
-          <h2 className="text-xl font-bold mb-4">
-            {wordSet.words[currentIndex].term}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {options.map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleAnswer(option)}
-                className={`p-3 border rounded text-left transition-all
+    <section className="flex flex-col items-start">
+      <Link
+        href="/"
+        className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+      >
+        Back on main page
+      </Link>
+      <div className="w-full mx-auto p-4">
+        {!isFinished ? (
+          <div className="w-full">
+            <h2 className="text-2xl font-bold">
+              Select the correct definition for the word:
+            </h2>
+            <div className="my-4 p-4 border  rounded">
+              <h5 className="text-xl font-bold mb-4 text-center">
+                {wordSet.words[currentIndex].term}
+              </h5>
+              <div className="grid grid-cols-2 gap-4">
+                {options.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleAnswer(option)}
+                    className={`p-3 border rounded text-left transition-all
                   ${
                     selectedAnswer === option
                       ? option === wordSet.words[currentIndex].definition
@@ -76,27 +94,23 @@ export default function TestPage({ params }: { params: { id: string } }) {
                         : "bg-red-500 text-white"
                       : "bg-gray-100 hover:bg-gray-200"
                   }`}
-              >
-                {option}
-              </button>
-            ))}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div>
-          <h2 className="text-xl font-bold">Тест завершен!</h2>
-          <p className="mt-2">
-            Вы ответили правильно на {correctAnswers} из {wordSet.words.length}{" "}
-            вопросов.
-          </p>
-          <button
-            onClick={() => router.push("/")}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            На главную
-          </button>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div>
+            <h2 className="text-xl font-bold">Quiz Finished</h2>
+            <p className="mt-2">
+              You answered correctly on {correctAnswers} out of{" "}
+              {wordSet.words.length} questions.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

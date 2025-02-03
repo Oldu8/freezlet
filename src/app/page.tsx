@@ -125,7 +125,7 @@ export default function HomePage() {
                       Edit
                     </Link>
                     <Link
-                      href={`/study/card/${set.id}`}
+                      href={`/study/${set.id}`}
                       className="bg-yellow-500 text-white px-3 py-1 rounded"
                     >
                       Study
