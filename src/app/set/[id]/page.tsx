@@ -155,7 +155,7 @@ export default function EditSetPage() {
       </div>
       <div className="mt-8">
         <Link
-          href={"/study/" + id}
+          href={"/study/card/" + id}
           className="font-bold bg-green-600 text-white p-3 rounded"
         >
           Study this set
