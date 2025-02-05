@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { WordSet } from "@/types/types";
 import Link from "next/link";
-// import { ReactComponent as wellDoneImg } from "../../../../../public/svg/wellDone.svg";
-import wellDoneImg from "../../../../../public/svg/wellDone.svg";
-import Image from "next/image";
+import CongratulationsSection from "@/components/CongratulationsSection/CongratulationsSection";
 
 export default function StudyWritingPage() {
   const router = useRouter();
@@ -33,7 +31,7 @@ export default function StudyWritingPage() {
         router.push("/");
       }
     }
-  }, [id]);
+  }, [id, router]);
 
   const shuffleArray = (array: WordSet["words"]): WordSet["words"] => {
     return [...array].sort(() => Math.random() - 0.5);
@@ -66,28 +64,11 @@ export default function StudyWritingPage() {
 
   if (temporaryState.length === 0)
     return (
-      <div className="max-w-xl mx-auto p-4 text-center flex flex-col items-center">
-        <h2 className="text-2xl font-bold mb-4">Congratulations! 🎉</h2>
-        <p>You finished all the words correctly!</p>
-        <div className="my-4 max-h-[300px]">
-          <Image src={wellDoneImg} alt="Well done" />
-        </div>
-        <div className="mt-4 flex flex-row gap-2 items-center mx-auto justify-center">
-          <button
-            onClick={() => router.push("/")}
-            className=" bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Back to Home
-          </button>
-          <p>or</p>
-          <button
-            onClick={() => router.push(`/study/${wordSet.id}`)}
-            className=" bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Back to study page
-          </button>
-        </div>
-      </div>
+      <CongratulationsSection id={wordSet.id}>
+        <p>
+          You have completed the writing of the words in the set. Well done!
+        </p>
+      </CongratulationsSection>
     );
 
   const currentWord = temporaryState[currentIndex];

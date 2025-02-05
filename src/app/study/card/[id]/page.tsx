@@ -46,12 +46,20 @@ export default function StudyCardPage() {
 
   return (
     <section className="flex flex-col items-start">
-      <Link
-        href="/"
-        className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-      >
-        Back on main page
-      </Link>
+      <div className="flex flex-row gap-2 items-start">
+        <Link
+          href="/"
+          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+        >
+          Back on main page
+        </Link>
+        <Link
+          href={`/study/${id}`}
+          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+        >
+          Back on study set page
+        </Link>
+      </div>
       {wordSet ? (
         <div className="w-full">
           <h3 className="text-2xl font-bold mb-4">

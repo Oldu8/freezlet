@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { WordSet } from "@/types/types";
 import Link from "next/link";
+import CongratulationsSection from "@/components/CongratulationsSection/CongratulationsSection";
 
 export default function StudyQuizPage() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function StudyQuizPage() {
         router.push("/");
       }
     }
-  }, [id]);
+  }, [id, router]);
 
   const generateOptions = (words: WordSet["words"], index: number) => {
     const correctDefinition = words[index].definition;
@@ -61,16 +62,22 @@ export default function StudyQuizPage() {
 
   if (!wordSet) return <p>Loading...</p>;
 
-  console.log(isFinished);
-
   return (
     <section className="flex flex-col items-start">
-      <Link
-        href="/"
-        className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-      >
-        Back on main page
-      </Link>
+      <div className="flex flex-row gap-2 items-start">
+        <Link
+          href="/"
+          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+        >
+          Back on main page
+        </Link>
+        <Link
+          href={`/study/${wordSet.id}`}
+          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+        >
+          Back on study set page
+        </Link>
+      </div>
       <div className="w-full mx-auto p-4">
         {!isFinished ? (
           <div className="w-full">
@@ -103,11 +110,13 @@ export default function StudyQuizPage() {
           </div>
         ) : (
           <div>
-            <h2 className="text-xl font-bold">Quiz Finished</h2>
-            <p className="mt-2">
-              You answered correctly on {correctAnswers} out of{" "}
-              {wordSet.words.length} questions.
-            </p>
+            <CongratulationsSection id={wordSet.id}>
+              <h3 className="text-lg font-bold text-center">Quiz Finished</h3>
+              <p className="text-lg mt-2 text-center">
+                You answered correctly on {correctAnswers} out of{" "}
+                {wordSet.words.length} questions.
+              </p>
+            </CongratulationsSection>
           </div>
         )}
       </div>
