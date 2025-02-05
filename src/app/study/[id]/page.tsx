@@ -73,6 +73,22 @@ export default function StudyPage() {
                   Start Cards
                 </Link>
               </li>
+              <li className="flex flex-row gap-2 border p-2 items-center">
+                <div className="flex flex-col gap-1">
+                  <p className="font-bold text-lg">Writing</p>
+                  <p>
+                    This will show you words and you have to write definitions
+                    or vice versa
+                  </p>
+                  <p>Best for learn correct writing</p>
+                </div>
+                <Link
+                  className="ml-auto font-bold p-2 bg-green-500 text-white rounded "
+                  href={`/study/writing/${wordSet.id}`}
+                >
+                  Start Writing
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
