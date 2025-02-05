@@ -58,7 +58,9 @@ export default function StudyCardPage() {
             Your learning set: {wordSet.name}
           </h3>
           <p className="mb-4">
-            Try to remember these words and then check your knowledge.
+            This is your infinity cards with terms and definitions. Try to
+            remember these words and then check your knowledge in the quiz or
+            writing mode.
           </p>
           {/* Flashcard */}
           <div className="border p-6 text-center text-xl mb-4">

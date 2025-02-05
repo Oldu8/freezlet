@@ -51,7 +51,7 @@ export default function StudyPage() {
                   <p>Best for memorizing meanings</p>
                 </div>
                 <Link
-                  className="ml-auto font-bold p-2 bg-blue-500 text-white rounded "
+                  className="ml-auto font-bold p-2 bg-blue-500 text-white rounded min-w-[115px] text-center"
                   href={`/study/quiz/${wordSet.id}`}
                 >
                   Start Quiz
@@ -67,7 +67,7 @@ export default function StudyPage() {
                   <p>Best for familiarizing with words </p>
                 </div>
                 <Link
-                  className="ml-auto font-bold p-2 bg-purple-500 text-white rounded "
+                  className="ml-auto font-bold p-2 bg-purple-500 text-white rounded min-w-[115px] text-center"
                   href={`/study/card/${wordSet.id}`}
                 >
                   Start Cards
@@ -83,7 +83,7 @@ export default function StudyPage() {
                   <p>Best for learn correct writing</p>
                 </div>
                 <Link
-                  className="ml-auto font-bold p-2 bg-green-500 text-white rounded "
+                  className="ml-auto font-bold p-2 bg-green-500 text-white rounded min-w-[115px] text-center"
                   href={`/study/writing/${wordSet.id}`}
                 >
                   Start Writing
