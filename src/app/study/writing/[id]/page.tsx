@@ -47,17 +47,18 @@ export default function StudyWritingPage() {
 
     if (userInput.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
       setIsCorrect(true);
-      setTemporaryState((prev) => prev.filter((_, i) => i !== currentIndex));
-      setCurrentIndex(0); // Restart from the first card
     } else {
       setIsCorrect(false);
     }
   };
 
   const handleNext = () => {
-    setIsCorrect(null);
-    setUserInput("");
-    setCurrentIndex((prev) => (prev + 1) % temporaryState.length);
+    if (isCorrect !== null) {
+      setTemporaryState((prev) => prev.filter((_, i) => i !== currentIndex));
+      setCurrentIndex((prev) => (prev + 1) % temporaryState.length);
+      setIsCorrect(null);
+      setUserInput("");
+    }
   };
 
   if (!wordSet) return <p>Loading...</p>;
@@ -77,7 +78,7 @@ export default function StudyWritingPage() {
     : currentWord.definition;
 
   return (
-    <section className="flex flex-col items-start  mx-auto">
+    <section className="flex flex-col items-start mx-auto">
       <div className="flex flex-row gap-2 items-start">
         <Link
           href="/"
@@ -146,7 +147,7 @@ export default function StudyWritingPage() {
               {/* Input Section */}
               <form
                 onSubmit={(e) => {
-                  e.preventDefault(); // Предотвращаем перезагрузку страницы
+                  e.preventDefault();
                   handleSubmit();
                 }}
                 className="mb-4 flex gap-2"
