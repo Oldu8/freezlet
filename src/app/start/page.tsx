@@ -41,6 +41,33 @@ export default function HomePage() {
 
   return (
     <section>
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+        >
+          Back on main page
+        </Link>
+      </div>
+      <h1 className="text-3xl font-bold mb-4">
+        Chose your set you want to study
+      </h1>
+
+      {wordSets.length === 0 ? (
+        <div className="my-4 flex flex-col items-center">
+          <p className="mb-2">Seems like you don&apos;t have any sets yet.</p>
+          <p className="">
+            It&apos;s not much buttons here, right? So maybe you will hit that
+            single green one to start, huh ?
+          </p>
+        </div>
+      ) : (
+        <p className="my-2">
+          Oh, I see that you already have some sets. So, now you could chose one
+          and press yellow one.
+        </p>
+      )}
+
       {confirmDelete && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg">
@@ -66,7 +93,7 @@ export default function HomePage() {
       {!showInput ? (
         <button
           onClick={() => setShowInput(true)}
-          className="mb-4 bg-green-500 text-white p-2 rounded"
+          className="my-4 bg-green-500 text-white p-2 rounded"
         >
           Create New Set
         </button>

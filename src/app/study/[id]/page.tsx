@@ -25,10 +25,10 @@ export default function StudyPage() {
   return (
     <section className="flex flex-col items-start">
       <Link
-        href="/"
+        href="/start"
         className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
       >
-        Back on main page
+        Back
       </Link>
       {wordSet ? (
         <div className="w-full">
