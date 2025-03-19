@@ -44,7 +44,6 @@ export default function StudyWritingPage() {
     const correctAnswer = showTranslationMode
       ? currentWord.definition
       : currentWord.term;
-
     if (userInput.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
       setIsCorrect(true);
     } else {
@@ -141,6 +140,9 @@ export default function StudyWritingPage() {
                 <p className="text-lg ">
                   Write {showTranslationMode ? "definition" : "term"} for:{" "}
                   <strong>{displayText}</strong>
+                </p>
+                <p className="text-sm text-gray-400">
+                  {currentWord?.transcription}
                 </p>
               </div>
 

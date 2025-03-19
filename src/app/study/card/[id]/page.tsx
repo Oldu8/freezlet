@@ -75,6 +75,9 @@ export default function StudyCardPage() {
             {shuffledWords.length > 0 ? (
               <>
                 <p className="font-bold">{shuffledWords[currentIndex].term}</p>
+                <p className="text-center text-gray-400 mb-4">
+                  {shuffledWords[currentIndex].transcription}
+                </p>
                 <p className="text-gray-500 mt-2 min-h-[28px]">
                   {showAnswer && (
                     <span>{shuffledWords[currentIndex].definition}</span>

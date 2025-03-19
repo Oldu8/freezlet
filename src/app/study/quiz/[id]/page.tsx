@@ -34,11 +34,13 @@ export default function StudyQuizPage() {
   const generateOptions = (words: WordSet["words"], index: number) => {
     const correctDefinition = words[index].definition;
     let incorrectOptions = words
-      .filter((_, i) => i !== index)
+      .filter((word, i) => i !== index && word.definition !== correctDefinition) // Ensure unique definitions
       .map((word) => word.definition);
+
     incorrectOptions = incorrectOptions
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
+
     setOptions(
       [...incorrectOptions, correctDefinition].sort(() => 0.5 - Math.random())
     );
@@ -84,10 +86,15 @@ export default function StudyQuizPage() {
             <h2 className="text-2xl font-bold">
               Select the correct definition for the word:
             </h2>
-            <div className="my-4 p-4 border  rounded">
-              <h5 className="text-xl font-bold mb-4 text-center">
+            <div className="my-4 p-4 border rounded">
+              <h5 className="text-xl font-bold mb-2 text-center">
                 {wordSet.words[currentIndex].term}
               </h5>
+              {wordSet.words[currentIndex].transcription && (
+                <p className="text-center text-gray-500 mb-4">
+                  {wordSet.words[currentIndex].transcription}
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-4">
                 {options.map((option, idx) => (
                   <button
