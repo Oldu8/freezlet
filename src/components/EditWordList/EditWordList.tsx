@@ -43,17 +43,17 @@ export default function EditWordList({
   };
 
   return (
-    <ul className="w-full">
+    <ul className="w-full space-y-2">
       {wordSet.words.map((word, index) => (
         <li
           key={index}
-          className="border p-3 mb-2 flex justify-between items-center min-h-[42px]"
+          className="border p-3 rounded-lg flex flex-col md:flex-row items-center justify-between bg-white shadow-md"
         >
           {editIndex === index ? (
-            <div className="flex gap-2 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mb-2 md:mb-0">
               <input
                 type="text"
-                className="border p-1 w-1/2"
+                className="border p-2 rounded w-full"
                 value={editedWord.term}
                 onChange={(e) =>
                   setEditedWord({ ...editedWord, term: e.target.value })
@@ -61,42 +61,64 @@ export default function EditWordList({
               />
               <input
                 type="text"
-                className="border p-1 w-1/2"
+                className="border p-2 rounded w-full"
+                value={editedWord.transcription ?? ""}
+                onChange={(e) =>
+                  setEditedWord({
+                    ...editedWord,
+                    transcription: e.target.value,
+                  })
+                }
+                placeholder="Transcription (optional)"
+              />
+              <input
+                type="text"
+                className="border p-2 rounded w-full"
                 value={editedWord.definition}
                 onChange={(e) =>
                   setEditedWord({ ...editedWord, definition: e.target.value })
                 }
               />
-              <div className="min-w-[150px] max-w-[150px] flex justify-end">
-                <button
-                  onClick={() => saveEdit(index)}
-                  className="bg-green-500 text-white px-3 py-1 rounded w-full"
-                >
-                  Save
-                </button>
-              </div>
             </div>
           ) : (
-            <div className="flex justify-between w-full items-center">
-              <span className="font-bold">{word.term}</span>
-              <strong>-</strong>
-              <span>{word.definition}</span>
-              <div className="w-[150px] flex gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full text-center">
+              <span className="font-bold text-lg md:text-base">
+                {word.term}
+              </span>
+              <span className="text-gray-600 text-lg md:text-base">
+                {word?.transcription ?? ""}
+              </span>
+              <span className="font-bold text-lg md:text-base">
+                {word.definition}
+              </span>
+            </div>
+          )}
+
+          <div className="w-full md:w-auto flex gap-2 mt-2 md:mt-0">
+            {editIndex === index ? (
+              <button
+                onClick={() => saveEdit(index)}
+                className="bg-green-500 text-white px-3 ml-0 md:ml-1 py-1 md:py-2 rounded w-full md:w-auto"
+              >
+                Save
+              </button>
+            ) : (
+              <>
                 <button
                   onClick={() => startEditing(index)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded flex-1"
+                  className="bg-blue-500 text-white px-3 py-1 rounded w-full md:w-auto"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => removeWord(index)}
-                  className="bg-red-500 text-white px-3 py-1 rounded flex-1"
+                  className="bg-red-500 text-white px-3 py-1 rounded w-full md:w-auto"
                 >
                   Remove
                 </button>
-              </div>
-            </div>
-          )}
+              </>
+            )}
+          </div>
         </li>
       ))}
     </ul>

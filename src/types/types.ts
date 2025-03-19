@@ -1,2 +1,2 @@
-export type Word = { term: string; definition: string };
+export type Word = { term: string; definition: string; transcription?: string };
 export type WordSet = { id: string; name: string; words: Word[] };
