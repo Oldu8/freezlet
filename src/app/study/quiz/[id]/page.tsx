@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { WordSet } from "@/types/types";
-import Link from "next/link";
 import CongratulationsSection from "@/components/CongratulationsSection/CongratulationsSection";
+import BaseLayout from "@/components/BaseLayout/BaseLayout";
 
 export default function StudyQuizPage() {
   const router = useRouter();
@@ -65,27 +65,16 @@ export default function StudyQuizPage() {
   if (!wordSet) return <p>Loading...</p>;
 
   return (
-    <section className="flex flex-col items-start">
-      <div className="flex flex-row gap-2 items-start">
-        <Link
-          href="/"
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on main page
-        </Link>
-        <Link
-          href={`/study/${wordSet.id}`}
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on study set page
-        </Link>
-      </div>
+    <BaseLayout
+      breadcrumbs={[
+        { label: "Back on main page", href: "/" },
+        { label: "Back on study set page", href: `/study/${wordSet.id}` },
+      ]}
+      title="Select the correct definition for the word:"
+    >
       <div className="w-full mx-auto p-4">
         {!isFinished ? (
           <div className="w-full">
-            <h2 className="text-2xl font-bold">
-              Select the correct definition for the word:
-            </h2>
             <div className="my-4 p-4 border rounded">
               <h5 className="text-xl font-bold mb-2 text-center">
                 {wordSet.words[currentIndex].term}
@@ -127,6 +116,6 @@ export default function StudyQuizPage() {
           </div>
         )}
       </div>
-    </section>
+    </BaseLayout>
   );
 }

@@ -50,11 +50,21 @@ export default function EditSetPage() {
               setWordSet={setWordSet}
               saveChanges={saveChanges}
             />
+
             <div className="my-4 ">
               <div className="border-t border-b border-gray-400"></div>
-              <p className="font-bold my-6 text-center">
-                You have already added:
-              </p>
+              <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
+                <p className="font-bold my-6 text-center">
+                  You have already added {wordSet.words.length} words. You can
+                  add more or you can start to
+                </p>
+                <Link
+                  href={"/study/card/" + id}
+                  className="font-bold bg-green-500 text-white p-1 rounded"
+                >
+                  Study this set
+                </Link>
+              </div>
               <EditWordList
                 wordSet={wordSet}
                 setWordSet={setWordSet}
@@ -65,14 +75,6 @@ export default function EditSetPage() {
         ) : (
           <p>Loading...</p>
         )}
-      </div>
-      <div className="mt-8">
-        <Link
-          href={"/study/card/" + id}
-          className="font-bold bg-green-600 text-white p-3 rounded"
-        >
-          Study this set
-        </Link>
       </div>
     </section>
   );

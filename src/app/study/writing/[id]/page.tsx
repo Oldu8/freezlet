@@ -15,6 +15,7 @@ export default function StudyWritingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showTranscription, setShowTranscription] = useState(false);
 
   const [showTranslationMode, setShowTranslationMode] = useState<
     boolean | null
@@ -112,11 +113,19 @@ export default function StudyWritingPage() {
       ) : (
         <>
           {/* Mode Display */}
-          <div className="mb-4">
+          <div className="mb-4 flex flex-row gap-2 items-center">
             <p className="text-lg font-semibold">
               Mode:{" "}
               {showTranslationMode ? "Term → Definition" : "Definition → Term"}
             </p>
+            <div className="flex flex-row gap-2 items-center ml-auto">
+              show transcription:{" "}
+              <input
+                type="checkbox"
+                checked={showTranscription}
+                onChange={() => setShowTranscription(!showTranscription)}
+              />
+            </div>
           </div>
           <div className="border p-6 text-center text-xl mb-4">
             {/* Current Word */}
@@ -126,7 +135,7 @@ export default function StudyWritingPage() {
                 <strong>{displayText}</strong>
               </p>
               <p className="text-sm text-gray-400">
-                {currentWord?.transcription}
+                {showTranscription ? currentWord?.transcription : ""}
               </p>
             </div>
 

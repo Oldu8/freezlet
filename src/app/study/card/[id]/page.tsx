@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { WordSet, Word } from "@/types/types";
-import Link from "next/link";
+import BaseLayout from "@/components/BaseLayout/BaseLayout";
 
 export default function StudyCardPage() {
   const { id } = useParams();
@@ -45,26 +45,15 @@ export default function StudyCardPage() {
   };
 
   return (
-    <section className="flex flex-col items-start">
-      <div className="flex flex-row gap-2 items-start">
-        <Link
-          href="/"
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on main page
-        </Link>
-        <Link
-          href={`/study/${id}`}
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on study set page
-        </Link>
-      </div>
+    <BaseLayout
+      breadcrumbs={[
+        { label: "Back on main page", href: "/" },
+        { label: "Back on study set page", href: `/study/${id}` },
+      ]}
+      title={`Your learning set: ${wordSet?.name || "Loading..."}`}
+    >
       {wordSet ? (
         <div className="w-full">
-          <h3 className="text-2xl font-bold mb-4">
-            Your learning set: {wordSet.name}
-          </h3>
           <p className="mb-4">
             This is your infinity cards with terms and definitions. Try to
             remember these words and then check your knowledge in the quiz or
@@ -114,6 +103,6 @@ export default function StudyCardPage() {
       ) : (
         <p>Loading...</p>
       )}
-    </section>
+    </BaseLayout>
   );
 }
