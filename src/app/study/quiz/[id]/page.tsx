@@ -5,10 +5,12 @@ import { useParams, useRouter } from "next/navigation";
 import { WordSet } from "@/types/types";
 import CongratulationsSection from "@/components/CongratulationsSection/CongratulationsSection";
 import BaseLayout from "@/components/BaseLayout/BaseLayout";
+import { shuffleArraySet } from "@/utils/setHelpers";
 
 export default function StudyQuizPage() {
   const router = useRouter();
   const [wordSet, setWordSet] = useState<WordSet | null>(null);
+  const [temporaryState, setTemporaryState] = useState<WordSet["words"]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [options, setOptions] = useState<string[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -24,7 +26,8 @@ export default function StudyQuizPage() {
       const foundSet = sets.find((set) => set.id === id);
       if (foundSet) {
         setWordSet(foundSet);
-        generateOptions(foundSet.words, 0);
+        setTemporaryState(shuffleArraySet(foundSet.words));
+        generateOptions(shuffleArraySet(foundSet.words), 0);
       } else {
         router.push("/");
       }
@@ -48,13 +51,13 @@ export default function StudyQuizPage() {
 
   const handleAnswer = (answer: string) => {
     setSelectedAnswer(answer);
-    if (wordSet && answer === wordSet.words[currentIndex].definition) {
+    if (temporaryState && answer === temporaryState[currentIndex].definition) {
       setCorrectAnswers((prev) => prev + 1);
     }
     setTimeout(() => {
-      if (wordSet && currentIndex < wordSet.words.length - 1) {
+      if (temporaryState && currentIndex < temporaryState.length - 1) {
         setCurrentIndex((prev) => prev + 1);
-        generateOptions(wordSet.words, currentIndex + 1);
+        generateOptions(temporaryState, currentIndex + 1);
         setSelectedAnswer(null);
       } else {
         setIsFinished(true);
@@ -77,11 +80,11 @@ export default function StudyQuizPage() {
           <div className="w-full">
             <div className="my-4 p-4 border rounded">
               <h5 className="text-xl font-bold mb-2 text-center">
-                {wordSet.words[currentIndex].term}
+                {temporaryState[currentIndex].term}
               </h5>
-              {wordSet.words[currentIndex].transcription && (
+              {temporaryState[currentIndex].transcription && (
                 <p className="text-center text-gray-500 mb-4">
-                  {wordSet.words[currentIndex].transcription}
+                  {temporaryState[currentIndex].transcription}
                 </p>
               )}
               <div className="grid grid-cols-2 gap-4">
@@ -92,7 +95,7 @@ export default function StudyQuizPage() {
                     className={`p-3 border rounded text-left transition-all
                   ${
                     selectedAnswer === option
-                      ? option === wordSet.words[currentIndex].definition
+                      ? option === temporaryState[currentIndex].definition
                         ? "bg-green-500 text-white"
                         : "bg-red-500 text-white"
                       : "bg-gray-100 hover:bg-gray-200"
@@ -110,7 +113,7 @@ export default function StudyQuizPage() {
               <h3 className="text-lg font-bold text-center">Quiz Finished</h3>
               <p className="text-lg mt-2 text-center">
                 You answered correctly on {correctAnswers} out of{" "}
-                {wordSet.words.length} questions.
+                {temporaryState.length} questions.
               </p>
             </CongratulationsSection>
           </div>
