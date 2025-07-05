@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { WordSet } from "@/types/types";
-import Link from "next/link";
 import CongratulationsSection from "@/components/CongratulationsSection/CongratulationsSection";
+import { shuffleArraySet, validationWritingSubmit } from "@/utils/setHelpers";
+import FeedbackSection from "@/components/Writing/FeedbackSection";
+import BaseLayout from "@/components/BaseLayout/BaseLayout";
 
 export default function StudyWritingPage() {
   const router = useRouter();
@@ -13,9 +15,10 @@ export default function StudyWritingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+
   const [showTranslationMode, setShowTranslationMode] = useState<
     boolean | null
-  >(null); // null until mode is selected
+  >(null);
 
   const { id } = useParams();
 
@@ -26,34 +29,28 @@ export default function StudyWritingPage() {
       const foundSet = sets.find((set) => set.id === id);
       if (foundSet) {
         setWordSet(foundSet);
-        setTemporaryState(shuffleArray(foundSet.words));
+        setTemporaryState(shuffleArraySet(foundSet.words));
       } else {
         router.push("/");
       }
     }
   }, [id, router]);
 
-  const shuffleArray = (array: WordSet["words"]): WordSet["words"] => {
-    return [...array].sort(() => Math.random() - 0.5);
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!wordSet || !temporaryState[currentIndex]) return;
 
     const currentWord = temporaryState[currentIndex];
     const correctAnswer = showTranslationMode
       ? currentWord.definition
       : currentWord.term;
-    if (userInput.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
-      setIsCorrect(true);
-    } else {
-      setIsCorrect(false);
-    }
+
+    const res = validationWritingSubmit(userInput, correctAnswer);
+    setIsCorrect(res);
   };
 
   const handleNext = () => {
     if (isCorrect !== null) {
-      setTemporaryState((prev) => prev.filter((_, i) => i !== currentIndex));
       setCurrentIndex((prev) => (prev + 1) % temporaryState.length);
       setIsCorrect(null);
       setUserInput("");
@@ -62,7 +59,7 @@ export default function StudyWritingPage() {
 
   if (!wordSet) return <p>Loading...</p>;
 
-  if (temporaryState.length === 0)
+  if (currentIndex === temporaryState.length - 1)
     return (
       <CongratulationsSection id={wordSet.id}>
         <p>
@@ -77,149 +74,113 @@ export default function StudyWritingPage() {
     : currentWord.definition;
 
   return (
-    <section className="flex flex-col items-start mx-auto">
-      <div className="flex flex-row gap-2 items-start">
-        <Link
-          href="/"
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on main page
-        </Link>
-        <Link
-          href={`/study/${wordSet.id}`}
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on study set page
-        </Link>
-      </div>
-      <div className="w-full">
-        <h2 className="text-2xl font-bold mb-4">Writing Task</h2>
-
-        {/* Mode Selection */}
-        {showTranslationMode === null ? (
-          <div className="mb-4 flex flex-col items-center gap-4">
-            <p className="text-start text-lg w-full">
-              Just before you start, please choose a mode.
-              <br />
-              You can select it once before starting.
-              <br />
-              Then you can start new study run with new mode.
-              <br />
-              You can write definitions of terms or terms by it definition
-            </p>
-            <p>So please what mode do you want:</p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowTranslationMode(true)}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Term → Definition
-              </button>
-              <button
-                onClick={() => setShowTranslationMode(false)}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                Definition → Term
-              </button>
-            </div>
+    <BaseLayout
+      breadcrumbs={[
+        { label: "Back on main page", href: "/" },
+        { label: "Back on study set page", href: `/study/${wordSet.id}` },
+      ]}
+      title="Writing Task"
+    >
+      {/* Mode Selection */}
+      {showTranslationMode === null ? (
+        <div className="mb-4 flex flex-col items-center gap-4">
+          <p className="text-start text-lg w-full">
+            Just before you start, please choose a mode.
+            <br />
+            You can select it once before starting.
+            <br />
+            Then you can start new study run with new mode.
+            <br />
+            You can write definitions of terms or terms by it definition
+          </p>
+          <p>So please what mode do you want:</p>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setShowTranslationMode(true)}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Term → Definition
+            </button>
+            <button
+              onClick={() => setShowTranslationMode(false)}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Definition → Term
+            </button>
           </div>
-        ) : (
-          <>
-            {/* Mode Display */}
+        </div>
+      ) : (
+        <>
+          {/* Mode Display */}
+          <div className="mb-4">
+            <p className="text-lg font-semibold">
+              Mode:{" "}
+              {showTranslationMode ? "Term → Definition" : "Definition → Term"}
+            </p>
+          </div>
+          <div className="border p-6 text-center text-xl mb-4">
+            {/* Current Word */}
             <div className="mb-4">
-              <p className="text-lg font-semibold">
-                Mode:{" "}
-                {showTranslationMode
-                  ? "Term → Definition"
-                  : "Definition → Term"}
+              <p className="text-lg ">
+                Write {showTranslationMode ? "definition" : "term"} for:{" "}
+                <strong>{displayText}</strong>
+              </p>
+              <p className="text-sm text-gray-400">
+                {currentWord?.transcription}
               </p>
             </div>
-            <div className="border p-6 text-center text-xl mb-4">
-              {/* Current Word */}
-              <div className="mb-4">
-                <p className="text-lg ">
-                  Write {showTranslationMode ? "definition" : "term"} for:{" "}
-                  <strong>{displayText}</strong>
-                </p>
-                <p className="text-sm text-gray-400">
-                  {currentWord?.transcription}
-                </p>
-              </div>
 
-              {/* Input Section */}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSubmit();
-                }}
-                className="mb-4 flex gap-2"
-              >
-                <input
-                  type="text"
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  className="border p-2 w-full rounded"
-                  placeholder="Type your answer here..."
-                />
-                <button
-                  type="submit"
-                  disabled={userInput.trim().length === 0}
-                  className={`px-4 py-2 rounded text-white ${
-                    userInput.trim().length === 0
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green-500"
-                  }`}
-                >
-                  Submit
-                </button>
-              </form>
-
-              {/* Feedback Section */}
-              {isCorrect === null && (
-                <div className="p-4 bg-blue-100 text-blue-700 rounded mb-4 min-h-[88px]">
-                  <p>Waiting for your answer...</p>
-                </div>
-              )}
-              {isCorrect === true && (
-                <div className="p-4 bg-green-100 text-green-700 rounded mb-4 min-h-[88px]">
-                  <p>Correct!</p>
-                </div>
-              )}
-              {isCorrect === false && (
-                <div className="p-4 bg-red-100 text-red-700 rounded mb-4 min-h-[88px]">
-                  <p>
-                    Incorrect! The correct answer is:{" "}
-                    <strong>
-                      {showTranslationMode
-                        ? currentWord.definition
-                        : currentWord.term}
-                    </strong>
-                  </p>
-                  <p>
-                    You entered: <strong>{userInput}</strong>
-                  </p>
-                </div>
-              )}
-
-              {/* Next Question Button */}
+            {/* Input Section */}
+            <form onSubmit={handleSubmit} className="mb-4 flex gap-2">
+              <input
+                type="text"
+                name="userInput"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className="border p-2 w-full rounded"
+                placeholder="Type your answer here..."
+                disabled={isCorrect !== null}
+              />
               <button
-                onClick={handleNext}
-                disabled={isCorrect === null}
-                className={`mt-4 px-4 py-2 rounded text-white ${
-                  isCorrect === null
+                type="submit"
+                disabled={userInput.trim().length === 0 || isCorrect !== null}
+                className={`px-4 py-2 rounded text-white ${
+                  userInput.trim().length === 0 || isCorrect !== null
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-500"
+                    : "bg-green-500"
                 }`}
               >
-                Next
+                Submit
               </button>
+            </form>
 
-              {/* Remaining Cards */}
-              <p className="mt-4">Remaining cards: {temporaryState.length}</p>
-            </div>
-          </>
-        )}
-      </div>
-    </section>
+            <FeedbackSection
+              isCorrect={isCorrect}
+              showTranslationMode={showTranslationMode}
+              currentWord={currentWord}
+              userInput={userInput}
+            />
+
+            {/* Next Question Button */}
+            <button
+              onClick={handleNext}
+              disabled={isCorrect === null}
+              className={`mt-4 px-4 py-2 rounded text-white ${
+                isCorrect === null
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500"
+              }`}
+            >
+              Next
+            </button>
+
+            {/* Remaining Cards */}
+            <p className="mt-4">
+              Remaining cards: {temporaryState.length - currentIndex - 1}
+            </p>
+          </div>
+        </>
+      )}
+    </BaseLayout>
   );
 }

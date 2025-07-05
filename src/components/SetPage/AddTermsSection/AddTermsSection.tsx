@@ -114,7 +114,11 @@ export const AddTermsSection = ({
         value={newWord.definition}
         onChange={(e) => setNewWord({ ...newWord, definition: e.target.value })}
       />
-      <button onClick={addWord} className="bg-blue-500 text-white p-2">
+      <button
+        type="submit"
+        onClick={addWord}
+        className="bg-blue-500 text-white p-2"
+      >
         Add
       </button>
     </div>
