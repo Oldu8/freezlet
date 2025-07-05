@@ -98,6 +98,9 @@ export default function StudyQuizPage() {
                       ? option === temporaryState[currentIndex].definition
                         ? "bg-green-500 text-white"
                         : "bg-red-500 text-white"
+                      : selectedAnswer !== null &&
+                        option === temporaryState[currentIndex].definition
+                      ? "bg-green-200 text-green-800"
                       : "bg-gray-100 hover:bg-gray-200"
                   }`}
                   >
