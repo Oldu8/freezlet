@@ -42,26 +42,26 @@ export default function HomePage() {
           <div className="flex gap-2">
             <Link
               href="/start"
-              className="px-6 py-3 bg-blue-500 text-white rounded-md text-lg hover:bg-blue-600 transition"
+              className="px-2 md:px-6 py-2 md:py-3 bg-blue-500 text-white rounded-md text-md md:text-lg hover:bg-blue-600 transition"
             >
               Get Started
             </Link>
             <Link
               href="/about"
-              className="px-6 py-3 bg-gray-200 text-gray-700 rounded-md text-lg hover:bg-gray-300 transition"
+              className="px-2 md:px-6 py-2 md:py-3 bg-gray-200 text-gray-700 rounded-md text-md md:text-lg hover:bg-gray-300 transition"
             >
               Learn More
             </Link>
           </div>
         </div>
-        <p className="text-lg text-gray-600 mb-6 text-justify md:text-center ">
+        <p className="text-md md:text-lg text-gray-600 mb-6 text-justify md:text-center ">
           Freezlet is your ultimate tool for mastering foreign language
           vocabulary. Create personalized flashcards, test your knowledge, and
           track your progress. Designed for language enthusiasts, this app
           simplifies and enhances your learning experience.
         </p>
 
-        <p className="text-lg text-gray-600 mb-6 text-justify md:text-center ">
+        <p className="text-md md:text-lg text-gray-600 mb-6 text-justify md:text-center ">
           Whether you are preparing for exams, learning a new language, or
           simply want to improve your vocabulary, Freezlet has everything you
           need. Practice with writing tasks, take quizzes, and ensure you retain
@@ -69,13 +69,13 @@ export default function HomePage() {
         </p>
 
         <ul className="list-disc">
-          <li className="text-lg text-gray-600 mb-2 text-start">
+          <li className="text-md md:text-lg text-gray-600 mb-2 text-start">
             Create and customize your flashcards to suit your learning style.
           </li>
-          <li className="text-lg text-gray-600 mb-2 text-start">
+          <li className="text-md md:text-lg text-gray-600 mb-2 text-start">
             Test your knowledge with quizzes and assessments.
           </li>
-          <li className="text-lg text-gray-600 mb-2 text-start">
+          <li className="text-md md:text-lg text-gray-600 mb-2 text-start">
             Track your progress and see your improvement over time.
           </li>
         </ul>

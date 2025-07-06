@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
 import { WordSet } from "@/types/types";
+import BaseLayout from "@/components/BaseLayout/BaseLayout";
 
 export default function HomePage() {
   const router = useRouter();
@@ -40,19 +41,10 @@ export default function HomePage() {
   };
 
   return (
-    <section>
-      <div className="mb-6">
-        <Link
-          href="/"
-          className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
-        >
-          Back on main page
-        </Link>
-      </div>
-      <h1 className="text-3xl font-bold mb-4">
-        Chose your set you want to study
-      </h1>
-
+    <BaseLayout
+      breadcrumbs={[{ label: "Back on main page", href: "/" }]}
+      title="Choose your set you want to study"
+    >
       {wordSets.length === 0 ? (
         <div className="my-4 flex flex-col items-center">
           <p className="mb-2">Seems like you don&apos;t have any sets yet.</p>
@@ -172,6 +164,6 @@ export default function HomePage() {
           </ul>
         </div>
       </div>
-    </section>
+    </BaseLayout>
   );
 }

@@ -36,7 +36,9 @@ export default function BaseLayout({
 
       <div className="w-full">
         {/* Title */}
-        {title && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
+        {title && (
+          <h2 className="text-xl md:text-2xl font-bold mb-4">{title}</h2>
+        )}
 
         {/* Content */}
         {children}

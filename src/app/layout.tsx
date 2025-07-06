@@ -27,12 +27,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <header className="w-full bg-blue-500 p-4">
-          <h1 className="text-4xl text-center text-white font-bold">
+        <header className="w-full bg-blue-500 p-2 md:p-4">
+          <h1 className="text-xl md:text-4xl text-center text-white font-bold">
             Word Sets to learn
           </h1>
         </header>
-        <main className="flex-1 p-6 max-w-3xl mx-auto w-full">{children}</main>
+        <main className="flex-1 p-2 md:p-6 max-w-3xl mx-auto w-full">
+          {children}
+        </main>
         <footer className="w-full bg-gray-100 py-4 text-center text-gray-500">
           <p>Made by Oldu.</p>
           <p>

@@ -58,6 +58,41 @@ export default function StudyWritingPage() {
     }
   };
 
+  // Focus input when moving to next question or when mode is selected
+  useEffect(() => {
+    if (showTranslationMode !== null && isCorrect === null) {
+      const input = document.querySelector(
+        'input[name="userInput"]'
+      ) as HTMLInputElement;
+      if (input && !input.disabled) {
+        input.focus();
+      }
+    }
+  }, [currentIndex, showTranslationMode, isCorrect]);
+
+  // Handle keyboard events for Enter key
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        if (isCorrect === null && userInput.trim().length > 0) {
+          // Submit the form
+          const form = document.querySelector("form");
+          if (form) {
+            form.requestSubmit();
+          }
+        } else if (isCorrect !== null) {
+          // Move to next question
+          handleNext();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [isCorrect, userInput]);
+
   if (!wordSet) return <p>Loading...</p>;
 
   if (currentIndex === temporaryState.length - 1)
@@ -127,7 +162,7 @@ export default function StudyWritingPage() {
               />
             </div>
           </div>
-          <div className="border p-6 text-center text-xl mb-4">
+          <div className="border p-2 md:p-6 text-center text-xl mb-4">
             {/* Current Word */}
             <div className="mb-4">
               <p className="text-lg ">
@@ -149,18 +184,29 @@ export default function StudyWritingPage() {
                 className="border p-2 w-full rounded"
                 placeholder="Type your answer here..."
                 disabled={isCorrect !== null}
+                autoFocus
               />
-              <button
-                type="submit"
-                disabled={userInput.trim().length === 0 || isCorrect !== null}
-                className={`px-4 py-2 rounded text-white ${
-                  userInput.trim().length === 0 || isCorrect !== null
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-green-500"
-                }`}
-              >
-                Submit
-              </button>
+              {isCorrect === null ? (
+                <button
+                  type="submit"
+                  disabled={userInput.trim().length === 0}
+                  className={`px-4 py-2 rounded text-white ${
+                    userInput.trim().length === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-500"
+                  }`}
+                >
+                  Submit
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="px-4 py-2 rounded text-white bg-blue-500"
+                >
+                  Next
+                </button>
+              )}
             </form>
 
             <FeedbackSection
@@ -169,19 +215,6 @@ export default function StudyWritingPage() {
               currentWord={currentWord}
               userInput={userInput}
             />
-
-            {/* Next Question Button */}
-            <button
-              onClick={handleNext}
-              disabled={isCorrect === null}
-              className={`mt-4 px-4 py-2 rounded text-white ${
-                isCorrect === null
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-500"
-              }`}
-            >
-              Next
-            </button>
 
             {/* Remaining Cards */}
             <p className="mt-4">

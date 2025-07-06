@@ -75,7 +75,7 @@ export default function StudyQuizPage() {
       ]}
       title="Select the correct definition for the word:"
     >
-      <div className="w-full mx-auto p-4">
+      <div className="w-full mx-auto p-1 md:p-4">
         {!isFinished ? (
           <div className="w-full">
             <div className="my-4 p-4 border rounded">
