@@ -55,15 +55,19 @@ export default function EditSetPage() {
               <div className="border-t border-b border-gray-400"></div>
               <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
                 <p className="font-bold my-6 text-center">
-                  You have already added {wordSet.words.length} words. You can
-                  add more or you can start to
+                  You have {wordSet.words.length} words in this set.{" "}
+                  {wordSet.words.length > 0
+                    ? "You can add more or you can start to"
+                    : "Add words to study"}
                 </p>
-                <Link
-                  href={"/study/card/" + id}
-                  className="font-bold bg-green-500 text-white p-1 rounded"
-                >
-                  Study this set
-                </Link>
+                {wordSet.words.length > 0 && (
+                  <Link
+                    href={"/study/" + id}
+                    className="font-bold bg-green-500 text-white p-1 rounded"
+                  >
+                    Study this set
+                  </Link>
+                )}
               </div>
               <EditWordList
                 wordSet={wordSet}

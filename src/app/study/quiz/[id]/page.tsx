@@ -78,7 +78,10 @@ export default function StudyQuizPage() {
       <div className="w-full mx-auto p-1 md:p-4">
         {!isFinished ? (
           <div className="w-full">
-            <div className="my-4 p-4 border rounded">
+            <div className="my-4 p-4 border rounded relative">
+              <p className="text-xs md:text-sm text-gray-600 absolute top-0 right-0 pr-2 pt-2">
+                {currentIndex + 1} of {temporaryState.length}
+              </p>
               <h5 className="text-xl font-bold mb-2 text-center">
                 {temporaryState[currentIndex].term}
               </h5>
