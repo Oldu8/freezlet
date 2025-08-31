@@ -92,7 +92,9 @@ export const AddTermsSection = ({
       <input
         type="text"
         placeholder="Word"
-        className={`border p-2 ${showTranscription ? "w-1/3" : "w-1/2"}`}
+        className={`border p-2 text-gray-700 ${
+          showTranscription ? "w-1/3" : "w-1/2"
+        }`}
         value={newWord.term}
         onChange={(e) => setNewWord({ ...newWord, term: e.target.value })}
       />
@@ -100,7 +102,7 @@ export const AddTermsSection = ({
         <input
           type="text"
           placeholder="Transcription"
-          className="border p-2 w-1/3"
+          className="border p-2 w-1/3 text-gray-700"
           value={newWord.transcription}
           onChange={(e) =>
             setNewWord({ ...newWord, transcription: e.target.value })
@@ -110,7 +112,9 @@ export const AddTermsSection = ({
       <input
         type="text"
         placeholder="Definition"
-        className={`border p-2 ${showTranscription ? "w-1/3" : "w-1/2"}`}
+        className={`border p-2 text-gray-700 ${
+          showTranscription ? "w-1/3" : "w-1/2"
+        }`}
         value={newWord.definition}
         onChange={(e) => setNewWord({ ...newWord, definition: e.target.value })}
       />

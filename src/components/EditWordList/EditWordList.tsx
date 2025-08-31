@@ -53,7 +53,7 @@ export default function EditWordList({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mb-2 md:mb-0">
               <input
                 type="text"
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full text-gray-700"
                 value={editedWord.term}
                 onChange={(e) =>
                   setEditedWord({ ...editedWord, term: e.target.value })
@@ -61,7 +61,7 @@ export default function EditWordList({
               />
               <input
                 type="text"
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full text-gray-700"
                 value={editedWord.transcription ?? ""}
                 onChange={(e) =>
                   setEditedWord({
@@ -73,7 +73,7 @@ export default function EditWordList({
               />
               <input
                 type="text"
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full text-gray-700"
                 value={editedWord.definition}
                 onChange={(e) =>
                   setEditedWord({ ...editedWord, definition: e.target.value })

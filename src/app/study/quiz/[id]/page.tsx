@@ -123,12 +123,12 @@ export default function StudyQuizPage() {
                   ${
                     selectedAnswer === option
                       ? option === temporaryState[currentIndex].definition
-                        ? "bg-green-500 text-white"
-                        : "bg-red-500 text-white"
+                        ? "bg-green-500 text-white dark:text-gray-800"
+                        : "bg-red-500 text-white dark:text-gray-800"
                       : selectedAnswer !== null &&
                         option === temporaryState[currentIndex].definition
-                      ? "bg-green-200 text-green-800"
-                      : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-green-200 text-green-800 dark:text-gray-800"
+                      : "bg-gray-100 hover:bg-gray-200 dark:text-gray-800"
                   } ${isAnswering ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     {option}
