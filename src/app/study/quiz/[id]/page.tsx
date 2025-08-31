@@ -9,14 +9,12 @@ import { shuffleArraySet } from "@/utils/setHelpers";
 
 const generateOptions = (words: WordSet["words"], index: number) => {
   const correctDefinition = words[index].definition;
-  console.log("correct:", correctDefinition);
   const incorrectOptions = words
-    .filter((word, i) => i !== index && word.definition !== correctDefinition) // Ensure unique definitions
+    .filter((word, i) => i !== index && word.definition !== correctDefinition)
     .map((word) => word.definition)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
-  console.log("incorrect:", incorrectOptions);
   return [...incorrectOptions, correctDefinition].sort(
     () => 0.5 - Math.random()
   );
@@ -38,6 +36,7 @@ export default function StudyQuizPage() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState<WrongAnswer[]>([]);
   const [isFinished, setIsFinished] = useState(false);
+  const [isAnswering, setIsAnswering] = useState(false);
 
   const { id } = useParams();
 
@@ -59,6 +58,10 @@ export default function StudyQuizPage() {
   }, [id, router]);
 
   const handleAnswer = (answer: string) => {
+    // Prevent multiple clicks
+    if (isAnswering) return;
+
+    setIsAnswering(true);
     setSelectedAnswer(answer);
     if (temporaryState && answer === temporaryState[currentIndex].definition) {
       setCorrectAnswers((prev) => prev + 1);
@@ -81,6 +84,7 @@ export default function StudyQuizPage() {
       } else {
         setIsFinished(true);
       }
+      setIsAnswering(false);
     }, 1000);
   };
 
@@ -101,11 +105,11 @@ export default function StudyQuizPage() {
               <p className="text-xs md:text-sm text-gray-600 absolute top-0 right-0 pr-2 pt-2">
                 {currentIndex + 1} of {temporaryState.length}
               </p>
-              <h5 className="text-xl font-bold mb-2 text-center">
+              <h5 className="text-lg md:text-xl font-bold mb-2 text-center">
                 {temporaryState[currentIndex].term}
               </h5>
               {temporaryState[currentIndex].transcription && (
-                <p className="text-center text-gray-500 mb-4">
+                <p className="text-center text-gray-500 mb-4 text-sm md:text-base">
                   {temporaryState[currentIndex].transcription}
                 </p>
               )}
@@ -114,7 +118,8 @@ export default function StudyQuizPage() {
                   <button
                     key={idx}
                     onClick={() => handleAnswer(option)}
-                    className={`p-3 border rounded text-left transition-all
+                    disabled={isAnswering}
+                    className={`p-2 md:p-3 border rounded text-left transition-all text-sm md:text-base
                   ${
                     selectedAnswer === option
                       ? option === temporaryState[currentIndex].definition
@@ -124,7 +129,7 @@ export default function StudyQuizPage() {
                         option === temporaryState[currentIndex].definition
                       ? "bg-green-200 text-green-800"
                       : "bg-gray-100 hover:bg-gray-200"
-                  }`}
+                  } ${isAnswering ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     {option}
                   </button>
@@ -135,8 +140,10 @@ export default function StudyQuizPage() {
         ) : (
           <div>
             <CongratulationsSection id={wordSet.id}>
-              <h3 className="text-lg font-bold text-center">Quiz Finished</h3>
-              <p className="text-lg mt-2 text-center">
+              <h3 className="text-base md:text-lg font-bold text-center">
+                Quiz Finished
+              </h3>
+              <p className="text-base md:text-lg mt-2 text-center">
                 You answered correctly on {correctAnswers} out of{" "}
                 {temporaryState.length} questions.
               </p>
@@ -145,20 +152,20 @@ export default function StudyQuizPage() {
             {/* Wrong Answers Table */}
             {wrongAnswers.length > 0 && (
               <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4 text-center">
+                <h4 className="text-base md:text-lg font-semibold mb-4 text-center">
                   Review Your Mistakes
                 </h4>
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse border border-gray-300">
                     <thead>
                       <tr className="bg-gray-100">
-                        <th className="border border-gray-300 px-4 py-2 text-left">
+                        <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                           Term
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 text-left">
+                        <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                           Your Answer
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 text-left">
+                        <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                           Correct Answer
                         </th>
                       </tr>
@@ -166,13 +173,13 @@ export default function StudyQuizPage() {
                     <tbody>
                       {wrongAnswers.map((wrongAnswer, index) => (
                         <tr key={index} className="hover:bg-gray-50">
-                          <td className="border border-gray-300 px-4 py-2 font-medium">
+                          <td className="border border-gray-300 px-2 md:px-4 py-2 font-medium text-sm md:text-base">
                             {wrongAnswer.term}
                           </td>
-                          <td className="border border-gray-300 px-4 py-2 text-red-600">
+                          <td className="border border-gray-300 px-2 md:px-4 py-2 text-red-600 text-sm md:text-base">
                             {wrongAnswer.selectedAnswer}
                           </td>
-                          <td className="border border-gray-300 px-4 py-2 text-green-600">
+                          <td className="border border-gray-300 px-2 md:px-4 py-2 text-green-600 text-sm md:text-base">
                             {wrongAnswer.correctAnswer}
                           </td>
                         </tr>
@@ -183,11 +190,11 @@ export default function StudyQuizPage() {
 
                 {/* Total Score */}
                 <div className="mt-6 text-center">
-                  <div className="inline-block bg-gray-100 rounded-lg px-6 py-3">
-                    <p className="text-lg font-semibold">
+                  <div className="inline-block bg-gray-100 rounded-lg px-4 md:px-6 py-3">
+                    <p className="text-base md:text-lg font-semibold">
                       Final Score: {correctAnswers} / {temporaryState.length}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs md:text-sm text-gray-600">
                       {Math.round(
                         (correctAnswers / temporaryState.length) * 100
                       )}
@@ -201,11 +208,11 @@ export default function StudyQuizPage() {
             {/* Show score even if no wrong answers */}
             {wrongAnswers.length === 0 && (
               <div className="mt-6 text-center">
-                <div className="inline-block bg-green-100 rounded-lg px-6 py-3">
-                  <p className="text-lg font-semibold text-green-800">
+                <div className="inline-block bg-green-100 rounded-lg px-4 md:px-6 py-3">
+                  <p className="text-base md:text-lg font-semibold text-green-800">
                     Perfect Score! {correctAnswers} / {temporaryState.length}
                   </p>
-                  <p className="text-sm text-green-600">
+                  <p className="text-xs md:text-sm text-green-600">
                     100% accuracy - Excellent work!
                   </p>
                 </div>

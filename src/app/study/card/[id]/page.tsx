@@ -54,47 +54,49 @@ export default function StudyCardPage() {
     >
       {wordSet ? (
         <div className="w-full">
-          <p className="mb-4">
+          <p className="mb-4 text-sm md:text-base">
             This is your infinity cards with terms and definitions. Try to
             remember these words and then check your knowledge in the quiz or
             writing mode.
           </p>
           {/* Flashcard */}
-          <div className="border p-6 text-center text-xl mb-4">
+          <div className="border p-4 md:p-6 text-center text-lg md:text-xl mb-4">
             {shuffledWords.length > 0 ? (
               <>
-                <p className="font-bold">{shuffledWords[currentIndex].term}</p>
-                <p className="text-center text-gray-400 mb-4">
+                <p className="font-bold text-base md:text-xl">
+                  {shuffledWords[currentIndex].term}
+                </p>
+                <p className="text-center text-gray-400 mb-4 text-sm md:text-base">
                   {shuffledWords[currentIndex].transcription}
                 </p>
-                <p className="text-gray-500 mt-2 min-h-[28px]">
+                <p className="text-gray-500 mt-2 min-h-[28px] text-sm md:text-base">
                   {showAnswer && (
                     <span>{shuffledWords[currentIndex].definition}</span>
                   )}
                 </p>
               </>
             ) : (
-              <p>No words in this set.</p>
+              <p className="text-sm md:text-base">No words in this set.</p>
             )}
           </div>
 
           {/* Controls */}
-          <div className="flex justify-between gap-4">
+          <div className="flex justify-between gap-2 md:gap-4">
             <button
               onClick={prevCard}
-              className="bg-teal-500 text-white p-2 rounded"
+              className="bg-teal-500 text-white p-2 rounded text-sm md:text-base"
             >
               Previous
             </button>
             <button
               onClick={() => setShowAnswer(!showAnswer)}
-              className="bg-blue-500 text-white p-2 rounded"
+              className="bg-blue-500 text-white p-2 rounded text-sm md:text-base"
             >
               {showAnswer ? "Hide Answer" : "Show Answer"}
             </button>
             <button
               onClick={nextCard}
-              className="bg-teal-500 text-white p-2 rounded"
+              className="bg-teal-500 text-white p-2 rounded text-sm md:text-base"
             >
               Next
             </button>
