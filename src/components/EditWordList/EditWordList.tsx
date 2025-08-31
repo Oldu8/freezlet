@@ -82,13 +82,13 @@ export default function EditWordList({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full text-center">
-              <span className="font-bold text-lg md:text-base">
+              <span className="font-bold text-lg md:text-base text-gray-700 ">
                 {word.term}
               </span>
               <span className="text-gray-600 text-lg md:text-base">
                 {word?.transcription ?? ""}
               </span>
-              <span className="font-bold text-lg md:text-base">
+              <span className="font-bold text-lg md:text-base text-gray-700 ">
                 {word.definition}
               </span>
             </div>

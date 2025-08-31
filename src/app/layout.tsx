@@ -23,11 +23,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-gray-800 transition-colors duration-200`}
       >
-        <header className="w-full bg-blue-500 p-2 md:p-4">
+        <header className="w-full bg-blue-500 dark:bg-blue-600 p-2 md:p-4 transition-colors duration-200">
           <h1 className="text-xl md:text-4xl text-center text-white font-bold">
             Word Sets to learn
           </h1>
@@ -35,7 +50,7 @@ export default function RootLayout({
         <main className="flex-1 p-2 md:p-6 max-w-3xl mx-auto w-full">
           {children}
         </main>
-        <footer className="w-full bg-gray-100 py-4 text-center text-gray-500">
+        <footer className="w-full bg-gray-100 dark:bg-gray-800 py-4 text-center text-gray-500 dark:text-gray-400 transition-colors duration-200">
           <p>Made by Oldu.</p>
           <p>
             &copy; {new Date().getFullYear()} Your Study App. All rights
