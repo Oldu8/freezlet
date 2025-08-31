@@ -26,7 +26,7 @@ export default function BaseLayout({
             <Link
               key={index}
               href={breadcrumb.href}
-              className="my-4 font-bold bg-gray-400 text-white p-2 rounded"
+              className="my-4 font-bold bg-gray-400 text-white p-2 rounded text-sm md:text-base"
             >
               {breadcrumb.label}
             </Link>
@@ -37,7 +37,9 @@ export default function BaseLayout({
       <div className="w-full">
         {/* Title */}
         {title && (
-          <h2 className="text-xl md:text-2xl font-bold mb-4">{title}</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-sm md:text-base">
+            {title}
+          </h2>
         )}
 
         {/* Content */}

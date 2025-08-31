@@ -134,10 +134,10 @@ export default function StudyWritingPage() {
         title="Writing Task Completed"
       >
         <CongratulationsSection id={wordSet.id}>
-          <h3 className="text-lg font-bold text-center">
+          <h3 className="text-base md:text-lg font-bold text-center">
             Writing Task Finished
           </h3>
-          <p className="text-lg mt-2 text-center">
+          <p className="text-base md:text-lg mt-2 text-center">
             You have completed the writing of the words in the set. Well done!
           </p>
         </CongratulationsSection>
@@ -145,23 +145,23 @@ export default function StudyWritingPage() {
         {/* Wrong Answers Table */}
         {wrongAnswers.length > 0 && (
           <div className="mt-8">
-            <h4 className="text-lg font-semibold mb-4 text-center">
+            <h4 className="text-base md:text-lg font-semibold mb-4 text-center">
               Review Your Mistakes
             </h4>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="border border-gray-300 px-4 py-2 text-left">
+                    <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                       Term
                     </th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">
+                    <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                       Mode
                     </th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">
+                    <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                       Your Answer
                     </th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">
+                    <th className="border border-gray-300 px-2 md:px-4 py-2 text-left text-sm md:text-base">
                       Correct Answer
                     </th>
                   </tr>
@@ -169,18 +169,18 @@ export default function StudyWritingPage() {
                 <tbody>
                   {wrongAnswers.map((wrongAnswer, index) => (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-4 py-2 font-medium">
+                      <td className="border border-gray-300 px-2 md:px-4 py-2 font-medium text-sm md:text-base">
                         {wrongAnswer.term}
                       </td>
-                      <td className="border border-gray-300 px-4 py-2 text-blue-600">
+                      <td className="border border-gray-300 px-2 md:px-4 py-2 text-blue-600 text-sm md:text-base">
                         {wrongAnswer.mode === "translation"
                           ? "Translation"
                           : "Term"}
                       </td>
-                      <td className="border border-gray-300 px-4 py-2 text-red-600">
+                      <td className="border border-gray-300 px-2 md:px-4 py-2 text-red-600 text-sm md:text-base">
                         {wrongAnswer.userInput}
                       </td>
-                      <td className="border border-gray-300 px-4 py-2 text-green-600">
+                      <td className="border border-gray-300 px-4 py-2 text-green-600 text-sm md:text-base">
                         {wrongAnswer.correctAnswer}
                       </td>
                     </tr>
@@ -191,11 +191,11 @@ export default function StudyWritingPage() {
 
             {/* Total Score */}
             <div className="mt-6 text-center">
-              <div className="inline-block bg-gray-100 rounded-lg px-6 py-3">
-                <p className="text-lg font-semibold">
+              <div className="inline-block bg-gray-100 rounded-lg px-4 md:px-6 py-3">
+                <p className="text-base md:text-lg font-semibold">
                   Final Score: {correctAnswers} / {temporaryState.length}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-xs md:text-sm text-gray-600">
                   {Math.round((correctAnswers / temporaryState.length) * 100)}%
                   accuracy
                 </p>
@@ -207,11 +207,11 @@ export default function StudyWritingPage() {
         {/* Show score even if no wrong answers */}
         {wrongAnswers.length === 0 && (
           <div className="mt-6 text-center">
-            <div className="inline-block bg-green-100 rounded-lg px-6 py-3">
-              <p className="text-lg font-semibold text-green-800">
+            <div className="inline-block bg-green-100 rounded-lg px-4 md:px-6 py-3">
+              <p className="text-base md:text-lg font-semibold text-green-800">
                 Perfect Score! {correctAnswers} / {temporaryState.length}
               </p>
-              <p className="text-sm text-green-600">
+              <p className="text-xs md:text-sm text-green-600">
                 100% accuracy - Excellent work!
               </p>
             </div>
